@@ -1,0 +1,34 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+import datetime
+message=MIMEMultipart()
+sender = 'do-not-reply@vzwnet.com'
+recipients = ['deepinder.kaur2@verizonwireless.com', 'deepinder.kaur2@verizonwireless.com']
+message['From'] = sender
+message['To'] = ", ".join(recipients)
+message['Subject']="TEST:Pathloss Files cleanup Script Output"
+html = """\
+<html>
+  <head></head>
+  <body>
+    <p>
+       web link <a href="http://www.python.org">link</a> <br>
+       network link1 <a href="file://///win.eng.vzwnet.com\\Atoll\\AtollData\\Dev\\Log">link2</a> <br>
+       network link2 <a href="file:///win.eng.vzwnet.com/Atoll/AtollData/Dev/Log">link3</a> <br>
+       network link3 <a href="file:///\\win.eng.vzwnet.com">link4</a> <br>
+       network link4 <a href="file:///10.194.133.27/Atoll/AtollData/Dev/Log">link4</a> <br>
+     </p>
+  </body>
+</html>
+"""
+try:
+	part1= MIMEText(html,'html')
+	message.attach(part1)
+	mailer=smtplib.SMTP("carodns1.nss.caro.vzwnet.com")
+	mailer.sendmail(message['From'],message['To'],message.as_string())       
+	print "Successfully sent email"
+except SMTPException:
+   print "Error: unable to send email"
+   
