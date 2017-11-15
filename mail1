@@ -1,0 +1,22 @@
+import smtplib
+from smtplib import SMTPException
+from email.mime.text import MIMEText
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+import datetime
+message=MIMEMultipart()
+sender = 'do-not-reply@vzwnet.com'
+recipients = ['deepinder.kaur2@verizonwireless.com', 'deepinder.kaur2@verizonwireless.com']
+message['From'] = sender
+message['To'] = ", ".join(recipients)
+message['Subject']="TESTING:Pathloss Files cleanup Script Output"
+
+try:
+	path = r'file://win.eng.vzwnet.com/Atoll/AtollData/Dev/Log/Atoll_Users_cleanup1.log'
+	body = path
+	message.attach(MIMEText(body, 'plain'))
+	mailer=smtplib.SMTP("carodns1.nss.caro.vzwnet.com")
+	mailer.sendmail(message['From'],message['To'],message.as_string())       
+	print "Successfully sent email"
+except SMTPException:
+   print "Error: unable to send email"
